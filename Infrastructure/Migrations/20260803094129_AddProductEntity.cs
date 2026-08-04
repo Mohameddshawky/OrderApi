@@ -1,0 +1,79 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace Infrastructure.Migrations
+{
+    /// <inheritdoc />
+    public partial class AddProductEntity : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "ProductName",
+                table: "OrderItems");
+
+            migrationBuilder.AddColumn<int>(
+                name: "ProductId",
+                table: "OrderItems",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    StockQuantity = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_ProductId",
+                table: "OrderItems",
+                column: "ProductId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_OrderItems_Products_ProductId",
+                table: "OrderItems",
+                column: "ProductId",
+                principalTable: "Products",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropForeignKey(
+                name: "FK_OrderItems_Products_ProductId",
+                table: "OrderItems");
+
+            migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropIndex(
+                name: "IX_OrderItems_ProductId",
+                table: "OrderItems");
+
+            migrationBuilder.DropColumn(
+                name: "ProductId",
+                table: "OrderItems");
+
+            migrationBuilder.AddColumn<string>(
+                name: "ProductName",
+                table: "OrderItems",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
+        }
+    }
+}
