@@ -1,5 +1,6 @@
 using Application.DTOs;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
@@ -38,7 +39,7 @@ public class ProductsController : ControllerBase
             
         return Ok(product);
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<ActionResult<ProductDto>> Create(CreateProductDto createProductDto)
     {
@@ -59,7 +60,7 @@ public class ProductsController : ControllerBase
             return NotFound();
         }
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {

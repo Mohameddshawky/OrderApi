@@ -51,7 +51,7 @@ public class AppDbContext : DbContext
         {
             Id = 1,
             Email = "admin@ordersystem.com",
-            PasswordHash = "$2a$11$Zy2NB1ZYE1FxIHv69GiG3.4OivBpZqDLdnKyaxS8CuKbNiZWXG0Aa",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("1234"),
             Role = "Admin"
         });
     }
