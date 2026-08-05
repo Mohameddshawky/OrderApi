@@ -15,6 +15,7 @@ public class AppDbContext : DbContext
     public DbSet<Product> Products { get; set; } = null!;
     public DbSet<Coupon> Coupons { get; set; } = null!;
     public DbSet<OrderStatusHistory> OrderStatusHistories { get; set; } = null!;
+    public DbSet<User> Users { get; set; } = null!;
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -45,5 +46,14 @@ public class AppDbContext : DbContext
             
         modelBuilder.Entity<Product>()
             .HasQueryFilter(p => p.IsActive);
+
+        modelBuilder.Entity<User>().HasData(new User
+        {
+            Id = 1,
+            Email = "admin@ordersystem.com",
+            PasswordHash = "$2a$11$Zy2NB1ZYE1FxIHv69GiG3.4OivBpZqDLdnKyaxS8CuKbNiZWXG0Aa",
+            Role = "Admin"
+        });
     }
 }
+
